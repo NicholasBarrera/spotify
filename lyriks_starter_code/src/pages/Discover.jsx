@@ -4,15 +4,14 @@ import { genres } from '../assets/constants';
 import React from 'react';
 
 import { useGetTopChartsQuery } from '../redux/services/shazamCore';
-// import { useGetTopChartsQuery } from '../redux/services/shazamCore';
 
 
 const Discover = () => {
     const { data, isFetching, error} = useGetTopChartsQuery();
-    // const { data, isFetching, error } = useGetTopChartsQuery();
+
     const genreTitle = 'Pop';
 
-    console.log(data);
+    // console.log(data);
 
     return (
         <div className='flex flex-col'>
@@ -34,7 +33,7 @@ const Discover = () => {
             </div>
 
             <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
-                {[1,2,3].map((song, i) => (
+                {data?.map((song, i) => (
                         <SongCard
                             key={song.key}
                             song={song}
