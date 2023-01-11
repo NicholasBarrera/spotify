@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Error, Loader, SongCard } from '../components'
 import { genres } from '../assets/constants';
 
@@ -5,14 +6,25 @@ import React from 'react';
 
 import { useGetTopChartsQuery } from '../redux/services/shazamCore';
 
+// how redux works is there is one huge global state broken into parts
+// CAKE {
+    
+//     SLICE: MUSIC PLAYER
+//     SLICE: SHAZAM CORE FUNCTIONALITY
+// }
+// to select one specific piece of the cake you can use the useSelector funtion
+
 
 const Discover = () => {
+    const dispatch = useDispatch();
+    const { activeSong, isPlaying } = useSelector((state) => state.player);
     const { data, isFetching, error} = useGetTopChartsQuery();
 
     const genreTitle = 'Pop';
 
+    if (isFetching) return <Loader title="Loading songs..." />;
+    if (error) return <Error/>;
     // console.log(data);
-
     return (
         <div className='flex flex-col'>
             <div className='w-full flex justify-between items-center sm:flex-row flex-col mt-4 mb-10'>
@@ -39,6 +51,9 @@ const Discover = () => {
                             song={song}
                             // data={data}
                             i={i}
+                            isPlaying={isPlaying}
+                            activeSong={activeSong}
+                            data={data}
                         />
                     
                 ))}   
